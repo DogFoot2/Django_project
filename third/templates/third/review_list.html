@@ -1,0 +1,44 @@
+{% extends 'third/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    {% for item in reviews %}
+        <div class="row restaurant-item" style="margin:20px auto">
+            <div class="col-sm-12">
+                <div class="card border-secondary">
+                    <div class="cart-body">
+                        <h5 class="card-title">{{ item.restaurant.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ item.restaurant.address }}</h6>
+                        <P class="card-text">{{ item.point }}점 / {{ item.comment }}</P>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <div class="pagination">
+            <span class="step-links text-center" style="width:100%;">
+                {% if reviews.has_previous %}  <!-- 현재 페이지의 전페이지가 존재하는지 확인 메소드-->
+                    <a href="?page=1">&laquo;</a> <!-- 첫페이지-->
+                    <a href="?page={{ reviews.previous_page_number }}">{{ reviews.previous_page_number }}
+                    </a> <!-- 이전페이지-->
+                {% endif %} 
+
+                <span class="current">
+                    {{ reviews.number }}    <!--현재 페이지-->
+                </span>
+
+                {% if reviews.has_next %}  <!-- 현재 페이지의 다음페이지가 존재하는지 확인 메소드-->
+                <a href="?page={{ reviews.next_page_number }}">{{ reviews.next_page_number }}</a> <!-- 다음페이지-->
+                <a href="?page={{ reviews.paginator.num_pages }}">{{ reviews.paginator.num_pages }}
+                </a> <!-- 마지막페이지-->
+                {% endif %} 
+
+            </span>
+        </div>
+    </div>
+</div>

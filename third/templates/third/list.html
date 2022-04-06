@@ -1,0 +1,48 @@
+{% extends 'third/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    {% for item in restaurants %}
+    <div class="row restaurant-item" style="margin:20px auto;">
+        <div class="col-sm-12">
+            <div class="card border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ item.address }}</h6>
+                    <p class="card-text">리뷰: {{ item.reviews_count }}개, 평점: {{ item.average_point }}점</p>
+                    <p class="card-text">음식점 설명</p>
+                    <a href="{% url 'restaurant-detail' id=item.id %}" class="card-link">자세히 보기</a>
+                    <!-- 자세히 보기 클릭시 링크 자체에 id가 조금더 직관적으로 나옴-->
+                    <a href="{% url 'restaurant-update' %}?id={{ item.id }}" class="card-link">수정하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <div class="pagination">
+                <span class="step-links text-center" style="width:100%;">
+                    {% if restaurants.has_previous %}  <!-- 현재 페이지의 전페이지가 존재하는지 확인 메소드-->
+                        <a href="?page=1">&laquo;</a> <!-- 첫페이지-->
+                        <a href="?page={{ restaurants.previous_page_number }}">{{ restaurants.previous_page_number }}
+                        </a> <!-- 이전페이지-->
+                    {% endif %} 
+
+                    <span class="current">
+                        {{ restaurants.number }}    <!--현재 페이지-->
+                    </span>
+
+                    {% if restaurants.has_next %}  <!-- 현재 페이지의 다음페이지가 존재하는지 확인 메소드-->
+                    <a href="?page={{ restaurants.next_page_number }}">{{ restaurants.next_page_number }}</a> <!-- 다음페이지-->
+                    <a href="?page={{ restaurants.paginator.num_pages }}">{{ restaurants.paginator.num_pages }}
+                    </a> <!-- 마지막페이지-->
+                    {% endif %} 
+
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
